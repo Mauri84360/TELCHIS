@@ -1,0 +1,70 @@
+/* Definir los estilos generales de la página */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  font-family: Arial, sans-serif;
+}
+
+/* Definir los estilos del navbar */
+.navbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Definir los estilos del carrusel */
+.carousel {
+  margin-top: 20px;
+}
+
+.carousel-item {
+  height: 500px;
+}
+
+.carousel-item img {
+  object-fit: cover;
+}
+
+.carousel-caption {
+  background-color: rgba(0,0,0,0.5);
+  padding: 10px;
+}
+
+/* Definir los estilos del contenido principal */
+.container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  text-align: center;
+}
+
+/* Definir los estilos del pie de página */
+footer {
+  margin-top: 20px;
+}
+
+footer h4 {
+  text-align: center;
+}
+
+footer p {
+  text-align: center;
+}
+
+footer a {
+  color: white;
+}
+
