@@ -13,11 +13,17 @@ function validatePhone(phone) {
   return re.test(phone);
 }
 
+function validateName(name) {
+  const re = /^[A-Za-z][A-Za-z\s]*$/;
+  return re.test(name);
+}
+
 function Contacto() {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [telefono, setTelefono] = useState('');
   const [comentario, setComentario] = useState('');
+  const [nombreError, setNombreError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [telefonoError, setTelefonoError] = useState('');
   const [comentarioError, setComentarioError] = useState('');
@@ -25,14 +31,19 @@ function Contacto() {
 
   useEffect(() => {
     setIsFormValid(
+      validateName(nombre) &&
       validateEmail(email) && 
       validatePhone(telefono) && 
       comentario.trim() !== ''
     );
-  }, [email, telefono, comentario]);
+  }, [nombre, email, telefono, comentario]);
 
   const handleNombreChange = (event) => {
-    setNombre(event.target.value);
+    const nameValue = event.target.value;
+    setNombre(nameValue);
+    setNombreError(
+      validateName(nameValue) ? '' : 'El nombre debe comenzar con una letra y solo contener letras y espacios'
+    );
   };
 
   const handleEmailChange = (event) => {
@@ -59,8 +70,18 @@ function Contacto() {
     );
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+  
+    // Verificar primero si el correo electrónico ya está registrado
+    const esCorreoValido = await verificarCorreo(email);
+    if (!esCorreoValido) {
+      // Si el correo ya está registrado, mostrar un mensaje y no enviar el formulario
+      alert('El correo electrónico ya está registrado. Por favor, use otro correo.');
+      return;
+    }
+  
+    // Si el correo no está registrado y el formulario es válido, proceder con el envío
     if (isFormValid) {
       fetch('http://localhost:3001/guardar-contacto', {
         method: 'POST',
@@ -85,7 +106,39 @@ function Contacto() {
       alert('Por favor corrija los errores en el formulario para enviar.');
     }
   };
+  
 
+  // Función para verificar si el correo ya está registrado
+const verificarCorreo = async (correo) => {
+  try {
+    const response = await fetch('http://localhost:3001/verificar-correo', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: correo }),
+    });
+    const data = await response.json();
+    if (response.status === 409) {
+      setEmailError('Este correo electrónico ya está registrado.');
+      return false;
+    } else {
+      setEmailError('');
+      return true;
+    }
+  } catch (error) {
+    setEmailError('Error al verificar el correo electrónico.');
+    return false;
+  }
+};
+
+// Llamar a verificarCorreo cuando el campo de email pierda el foco
+const handleEmailBlur = async (event) => {
+  const correo = event.target.value;
+  if (validateEmail(correo)) {
+    await verificarCorreo(correo);
+  }
+};
   return (
     <div className="Contacto">
       <Container className="mt-4">
@@ -105,16 +158,18 @@ function Contacto() {
                   value={nombre} 
                   onChange={handleNombreChange} 
                 />
+                {nombreError && <p className="text-danger">{nombreError}</p>}
               </Form.Group>
               <Form.Group className="mb-3" controlId="email">
                 <Form.Label>Dirección de correo electrónico</Form.Label>
                 <Form.Control 
-                  type="email" 
-                  placeholder="Ingresa tu dirección de correo electrónico" 
-                  required 
-                  value={email} 
-                  onChange={handleEmailChange} 
-                />
+      type="email" 
+      placeholder="Ingresa tu dirección de correo electrónico" 
+      required 
+      value={email} 
+      onBlur={handleEmailBlur} // Agregar el manejador de evento onBlur
+      onChange={handleEmailChange} 
+    />
                 {emailError && <p className="text-danger">{emailError}</p>}
               </Form.Group>
               <Form.Group className="mb-3" controlId="telefono">
