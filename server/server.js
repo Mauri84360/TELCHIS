@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'macosmysql',
+  password: '',
   database: 'telchis'
 });
 
