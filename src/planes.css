@@ -1,0 +1,79 @@
+.Planes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+.service-group {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 10px;
+  width: 500px;
+  text-align: center;
+}
+
+.service-group h2 {
+  margin-top: 0;
+}
+
+.service-card {
+  border: none;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 10px;
+  width: 100%;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.service-card h3 {
+  margin-top: 0;
+}
+
+@media (min-width: 768px) {
+  .service-group {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .service-card {
+    flex-basis: calc(25% - 20px);
+  }
+}
+.shadow {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .h-100 {
+    height: 100%;
+  }
+  /* Definir los estilos del navbar */
+.navbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Definir los estilos del carrusel */
+.carousel {
+  margin-top: 20px;
+}
+
+.carousel-item {
+  height: 500px;
+}
+
+.carousel-item img {
+  object-fit: cover;
+}
+
+.carousel-caption {
+  background-color: rgba(0,0,0,0.5);
+  padding: 10px;
+}
+
+/* Definir los estilos del contenido principal */
+.container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
