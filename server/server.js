@@ -33,12 +33,12 @@ connection.connect(error => {
 
 // Definir la ruta para guardar los datos del formulario
 app.post('/guardar-contacto', (req, res) => {
-  // Incluir el campo comentario en la desestructuración
+  
   const { nombre, email, telefono, comentario } = req.body;
   // Actualizar la consulta para incluir el campo comentario
   const query = 'INSERT INTO contactos (nombre, email, telefono, comentario) VALUES (?, ?, ?, ?)';
   
-  // Incluir el comentario en los valores a insertar
+  
   connection.query(query, [nombre, email, telefono, comentario], (err, results) => {
     if (err) {
       console.error('Error al guardar los datos:', err);
